@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="Django default">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.3">
+    <root id="1"/>
+    <schema id="2" parent="1" name="kosme_01">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="compclass"/>
+    <schema id="4" parent="1" name="daophone"/>
+    <schema id="5" parent="1" name="daotalk"/>
+    <schema id="6" parent="1" name="faculty_rb"/>
+    <schema id="7" parent="1" name="information_schema"/>
+    <schema id="8" parent="1" name="mysql"/>
+    <schema id="9" parent="1" name="mysqldb"/>
+    <schema id="10" parent="1" name="performance_schema"/>
+    <schema id="11" parent="1" name="profile"/>
+    <schema id="12" parent="1" name="ruby_lab1_production"/>
+    <schema id="13" parent="1" name="ruby_lab1_test"/>
+    <schema id="14" parent="1" name="sakila"/>
+    <schema id="15" parent="1" name="schedule"/>
+    <schema id="16" parent="1" name="sys"/>
+    <schema id="17" parent="1" name="univ_adm"/>
+    <schema id="18" parent="1" name="univ_adm_db"/>
+    <schema id="19" parent="1" name="user"/>
+  </database-model>
+</dataSource>

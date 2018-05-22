@@ -1,0 +1,20 @@
+{% extends 'kosme/base.html' %}
+{% load i18n %}
+
+    {% block title %}User home{% endblock %}
+
+    {% block content %}
+        {% if user.profile.is_teacher %}
+             <h2 class="text-center"> Welcome teacher </h2>
+        {% else %}
+            <h2 class="text-center"> Welcome student </h2>
+        {% endif %}
+            <div class="list-group">
+                <a href="{% url 'profile' %}" class="list-group-item text-center"> Profile </a>
+                <a href="#" class="list-group-item text-center"> Show courses </a>
+                 {% if not user.profile.is_teacher %}
+                    <a href="{% url 'user_class' %}" class="list-group-item text-center"> Show class</a>
+                 {% endif %}
+                <a href="#" class="list-group-item text-center"> Show statistics</a>
+            </div>
+    {% endblock %}

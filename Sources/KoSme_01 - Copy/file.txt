@@ -1,0 +1,1 @@
+<p><strong><em><span style="font-family:Courier New,Courier,monospace"><span style="font-size:48px"><span style="color:#c0392b">This is sample text</span></span></span></em></strong></p>
