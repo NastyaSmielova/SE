@@ -23,5 +23,7 @@ class ClassAdmin(admin.ModelAdmin):
 admin.site.register(SchoolClass,ClassAdmin)
 admin.site.register(Student,StudentAdmin)
 admin.site.register(Teacher)
+admin.site.register(Quiz)
 admin.site.register(Course)
+admin.site.register(Profile)
 admin.site.register(Lecture)

@@ -41,6 +41,12 @@ class Course(models.Model):
            return self.name
 
 
+class Quiz(models.Model):
+    name = models.CharField(max_length=30)
+    data = models.TextField(max_length=4000)
+    def __str__(self):
+        return "%s " % (self.name)
+
 class Lecture(models.Model):
        name = models.CharField(max_length=30, unique=True)
        course = models.ForeignKey(Course,null=True)

@@ -19,12 +19,15 @@ urlpatterns = [
  #   url(r'^showLecture/$', views.showlecture, name='showLecture'),
 
 
+    url(r'^quiz/$', views.quiz, name='quiz'),
     url(r'^logout/$', views.log_out, name='logout'),
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^user/profile/$', views.profile, name="profile"),
     url(r'^signin/$', views.signin, name="signin"),
-    url(r'^user/$', views.user_index, name="user_index"),
-    url(r'^user/class$', views.user_class, name="user_class"),
+    url(r'^user/$', views.user_index, name="userIndex"),
+    url(r'^user/class$', views.user_class, name="userClass"),
+    url(r'^user/quiz_all/$', views.allQuizes, name="allQuizes"),
+    url(r'^user/(?P<pk_quiz>\d+)/show$', views.show_quiz, name="showQuiz")
 
 
 ]

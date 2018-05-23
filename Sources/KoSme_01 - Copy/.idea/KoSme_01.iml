@@ -12,8 +12,20 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.6.3 (C:\Python\Python36-32\python.exe)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.6.2 (C:\Users\pc\AppData\Local\Programs\Python\Python36-32\python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="ace" level="application" />
+    <orderEntry type="library" name="worker-json" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="survey.ko" level="application" />
+    <orderEntry type="library" name="knockout" level="application" />
+    <orderEntry type="library" name="select2" level="application" />
+    <orderEntry type="library" name="surveyeditor" level="application" />
+    <orderEntry type="library" name="jquery.cookie" level="application" />
+    <orderEntry type="library" name="ext-language_tools" level="application" />
+    <orderEntry type="library" name="mode-json" level="application" />
+    <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="jquery-1.10.1" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

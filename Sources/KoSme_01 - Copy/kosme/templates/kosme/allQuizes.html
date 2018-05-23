@@ -1,0 +1,17 @@
+
+{% extends 'kosme/quiz_base.html' %}
+{% load i18n %}
+{% block content %}
+
+   {% for quiz in all_quizes %}
+       <li>
+           <a  href = "#"> {{ quiz.name }}</a>
+           <a  href = "{% url 'kosme:showQuiz'  quiz.id  %}"> EDIT</a>
+
+       </li>
+    {% endfor %}
+
+
+    <a href="{% url 'kosme:quiz' %}">Create new </a>
+
+{% endblock %}
