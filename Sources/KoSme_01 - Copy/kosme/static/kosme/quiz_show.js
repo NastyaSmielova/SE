@@ -1,37 +1,33 @@
-//add a property to the survey object
-Survey
-    .JsonObject
-    .metaData
-    .addProperty("survey", "tag:number");
 
-//add a property to the page object
-Survey
-    .JsonObject
-    .metaData
-    .addProperty("page", {
-        name: "tag:number",
-        default: 1
-    });
 
-//add a property to the base question class and as result to all questions
 Survey
-    .JsonObject
-    .metaData
-    .addProperty("questionbase", {
-        name: "tag:number",
-        default: 0
-    });
+    .StylesManager
+    .applyTheme("default");
 
-function loadSurvey() {
-    var json = document.getElementById('surveyJSON');
-    json.value = editor.text;
-    alert(editor.text);
+json = document.getElementById('mainJSON').value;
+result = {completedHtml: "<h3>You have answered correctly <b>{correctedAnswers}</b> questions from <b>{questionCount}</b>.</h3>"};
+alert(json);
+var newJson = $.extend({}, JSON.parse(json) , result);
+
+window.survey = new Survey.Model(newJson);
+function surveyValidateQuestion(survey, options) {
+    result =  survey.getCorrectedAnswerCount();
+    $.ajax({
+                headers: { "X-CSRFToken": $.cookie("csrftoken") },
+                type: "POST",
+                data: { result : result}
+            });
+        alert("data sended");
+        options.complete();
 }
 
-var editorOptions = {showEmbededSurveyTab: false, showJSONEditorTab: false, showElementEditor: false, showDesigner: false };
-var editor = new SurveyEditor.SurveyEditor("editorElement", editorOptions);
-editor.text = document.getElementById('mainJSON');
-loadSurvey();
+
+survey.onComplete.add(function (result) {
+        document.querySelector('#surveyResult').innerHTML = "result: " + JSON.stringify(result.data);
+    });
+
+$("#surveyElement").Survey({model: survey,onServerValidateQuestions: surveyValidateQuestion});
+//loadSurvey();
 
 
 

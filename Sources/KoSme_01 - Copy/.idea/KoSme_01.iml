@@ -26,6 +26,7 @@
     <orderEntry type="library" name="mode-json" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="jquery-1.10.1" level="application" />
+    <orderEntry type="library" name="survey.jquery" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

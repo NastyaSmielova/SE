@@ -2,16 +2,21 @@
 {% extends 'kosme/base.html' %}
 {% load i18n %}
 {% block content %}
+    <h1>Лекції</h1>
 <ul class="list-group">
    {% for lecture in all_lectures %}
        <li  class="list-group-item">
            <a class="btn btn-info" role="button" href = "{% url 'kosme:lectureID'  course_id  lecture.id  %}"> {{ lecture.name }}</a>
-           <a class="btn btn-warning" role="button" href = "{% url 'kosme:lectureIDEdit' lecture.id  %}"> EDIT</a>
+         {% if user.profile.is_teacher %}  <a class="btn btn-warning" role="button" href = "{% url 'kosme:lectureIDEdit' course_id lecture.id  %}"> РЕДАГУВАТИ</a>
+           <a class="btn btn-danger" role="button" href = "{% url 'kosme:lectureIDDelete' course_id lecture.id  %}"> ВИДАЛИТИ </a>
+       {% endif %}
 
        </li>
     {% endfor %}
 </ul>
     <br><br>
-    <a class="btn btn-danger" role="button" href="{% url 'kosme:lectureCreate' course_id %}">Create new </a>
+    {% if user.profile.is_teacher %}
+    <a class="btn btn-danger" role="button" href="{% url 'kosme:lectureCreate' course_id %}">Створити нову </a>
+    {% endif %}
 
 {% endblock %}

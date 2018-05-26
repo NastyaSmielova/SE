@@ -10,10 +10,10 @@
              {% csrf_token %}
              <input id="HTMLtoPDF" name="HTMLtoPDF" hidden="hidden">
              <br>
-            <button name = "sub" class="btn btn-primary" onclick="saveDocument({{ lecture.link }})" type="submit"> Зберігти</button>
+            <button name = "sub" class="btn btn-primary" onclick="saveDocument({{ lecture.link }})" type="submit"> Закрити редагування </button>
             </form>
-        </form>
-    <p id="link" hidden="hidden"  > {{ lecture.link}}</p>
+    </form>
+         <p id="link" hidden="hidden"  > {{ lecture.link}}</p>
          <button  id="myCheck" hidden="hidden"   onclick="setLectureText('{{ lecture.link }}')" > Show example </button>
             <script>window.onload =  document.getElementById("myCheck").click();</script>
 
@@ -35,7 +35,7 @@
 
             request.send(editorText);
 
-                var fileDisplayArea = document.getElementById('HTMLtoPDF');
+            var fileDisplayArea = document.getElementById('HTMLtoPDF');
             fileDisplayArea.value = newstr;
         }
     </script>

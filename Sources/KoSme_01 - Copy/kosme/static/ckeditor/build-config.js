@@ -48,7 +48,7 @@ var CKBUILDER_CONFIG = {
 		'less',
 		'node_modules',
 		'package.json',
-		'tests'
+		'test'
 	],
 	plugins : {
 		'a11yhelp' : 1,

@@ -2343,7 +2343,7 @@ var jsPDF = (function(global) {
 	 *
 	 * http://jsperf.com/encoding-xhr-image-data/31
 	 *
-	 * Need to test if this is a better solution for larger files
+	 * Need to tests if this is a better solution for larger files
 	 *
 	 */
 	jsPDFAPI.arrayBufferToBase64 = function(arrayBuffer) {
@@ -2490,7 +2490,7 @@ var jsPDF = (function(global) {
 					throw new Error('please ensure that the plugin for \''+format+'\' support is added');
 
 				/**
-				 * need to test if it's more efficent to convert all binary strings
+				 * need to tests if it's more efficent to convert all binary strings
 				 * to TypedArray - or should we just leave and process as string?
 				 */
 				if(this.supportsArrayBuffer()) {
@@ -5147,7 +5147,7 @@ MIT license.
 /*
 # reference (Python) versions of 'compress' and 'uncompress'
 # only 'uncompress' function is featured lower as JavaScript
-# if you want to unit test "roundtrip", just transcribe the reference
+# if you want to unit tests "roundtrip", just transcribe the reference
 # 'compress' function from Python into JavaScript
 
 def compress(data):
@@ -7276,7 +7276,7 @@ var Deflater = (function(obj) {
 
 			if ((stored_len + 4 <= opt_lenb) && buf != -1) {
 				// 4: two words for the lengths
-				// The test buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
+				// The tests buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
 				// Otherwise we can't have processed more than WSIZE input bytes
 				// since
 				// the last block flush, because compression would have been

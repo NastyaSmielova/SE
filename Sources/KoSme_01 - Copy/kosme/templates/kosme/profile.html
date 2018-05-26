@@ -5,14 +5,14 @@
     {% block content %}
     <ul class="list-group">
         <li class="list-group-item">
-            <h3 class="text-center"> Personal info </h3>
+            <h3 class="text-center"> Персональна інформація </h3>
         </li>
     </ul>
 
         <ul class="list-group" >
-            <li class="list-group-item "> Your login :  {{ user.username}}</li>
-            <li class="list-group-item"> First name:  {{ user.first_name}}</li>
-            <li class="list-group-item">Last name: {{user.last_name}}</li>
+            <li class="list-group-item "> Логін :  {{ user.username}}</li>
+            <li class="list-group-item"> Ім'я:  {{ user.first_name}}</li>
+            <li class="list-group-item">Прізвище: {{user.last_name}}</li>
             <li class="list-group-item"> email: {{ user.email }}</li>
         </ul>
     {% endblock %}

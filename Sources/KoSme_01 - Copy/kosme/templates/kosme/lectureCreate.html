@@ -2,13 +2,13 @@
 {% load i18n %}
 
 {% block content %}
-
-    <form id="form" method="post" onSubmit="return saveDocumentByName(this.sub)" class="form-group">
+{#onSubmit="return saveDocumentByName(this.sub)"#}
+    <form id="form" method="post"  class="form-group">
            <textarea id="editor1" name="editor1">Вводьте лекцію тут)</textarea>
 
              {% csrf_token %}
               <label for="fileName">Назва лекції:</label>
-              <input  class="form-control" name="fileName" id="fileName">
+              <input class="form-control" name="fileName" id="fileName" required>
               <input  id="HTMLtoPDF" name="HTMLtoPDF" hidden="hidden">
              <br>
             <button name="sub" type="submit"  class="btn btn-primary"> Зберігти </button>

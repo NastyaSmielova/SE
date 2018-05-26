@@ -16,14 +16,27 @@ class StudentAdmin(admin.ModelAdmin):
 class StudentAdminInline(admin.TabularInline):
     model = Student
 
+class ClassesInline(admin.TabularInline):
+    model = Course.classes.through
+
+
+
 class ClassAdmin(admin.ModelAdmin):
-    inlines = (StudentAdminInline, )
+    inlines = (StudentAdminInline,)
+
+
+class CourseAdmin(admin.ModelAdmin):
+    inlines = (ClassesInline,)
+    exclude = ('classes',)
+
+
+
 
 # Register your models here.
 admin.site.register(SchoolClass,ClassAdmin)
 admin.site.register(Student,StudentAdmin)
 admin.site.register(Teacher)
 admin.site.register(Quiz)
-admin.site.register(Course)
+admin.site.register(Course,CourseAdmin)
 admin.site.register(Profile)
 admin.site.register(Lecture)
