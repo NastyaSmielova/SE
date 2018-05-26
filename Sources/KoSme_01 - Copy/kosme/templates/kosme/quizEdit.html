@@ -5,9 +5,9 @@
     <body>
     <h1>Quiz</h1>
         <div class="form-group">
-            <label for="quiz_name" class="col-sm-3 control-label">Enter quiz name:</label>
+            <label for="quiz_name" class="col-sm-3 control-label">Quiz name:</label>
                 <div class="col-sm-9">
-                    <input name="name" id="quiz_name" placeholder="quiz name" value="survey1" class="form-control" required>
+                    <input name="name" id="quiz_name" value="{{ qname }}" class="form-control" required>
                 </div>
         </div>
         <br/>
@@ -15,8 +15,9 @@
         <div id="surveyContainer">
             <div id="editorElement"></div>
         </div>
+        <input id="mainJSON" name="mainJSON" type="hidden" value="{{ mainJSON }}" />
 
-        <script type="text/javascript" src="{% static 'kosme/quiz.js' %}"></script>
+        <script type="text/javascript" src="{% static 'kosme/quiz_edit.js' %}"></script>
 
     </body>
 {% endblock %}

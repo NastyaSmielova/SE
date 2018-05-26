@@ -2,16 +2,16 @@
 {% extends 'kosme/base.html' %}
 {% load i18n %}
 {% block content %}
-<ul class="list-group">
+
    {% for lecture in all_lectures %}
-       <li  class="list-group-item">
-           <a class="btn btn-info" role="button" href = "{% url 'kosme:lectureID'  course_id  lecture.id  %}"> {{ lecture.name }}</a>
-           <a class="btn btn-warning" role="button" href = "{% url 'kosme:lectureIDEdit' lecture.id  %}"> EDIT</a>
+       <li>
+           <a  href = "{% url 'kosme:lectureID'  course_id  lecture.id  %}"> {{ lecture.name }}</a>
+           <a  href = "{% url 'kosme:lectureIDEdit' lecture.id  %}"> EDIT</a>
 
        </li>
     {% endfor %}
-</ul>
-    <br><br>
-    <a class="btn btn-danger" role="button" href="{% url 'kosme:lectureCreate' course_id %}">Create new </a>
+
+
+    <a href="{% url 'kosme:lectureCreate' course_id %}">Create new </a>
 
 {% endblock %}

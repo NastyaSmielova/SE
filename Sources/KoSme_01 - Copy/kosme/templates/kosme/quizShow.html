@@ -1,23 +1,19 @@
 {% extends 'kosme/quiz_base.html' %}
 {% load i18n %}
- {% load staticfiles %}
+{% load staticfiles %}
 {% block content %}
     <body>
     <h1>Quiz</h1>
         <div class="form-group">
-            <label for="quiz_name" class="col-sm-3 control-label">Enter quiz name:</label>
-                <div class="col-sm-9">
-                    <input name="name" id="quiz_name" placeholder="quiz name" class="form-control" required>
-                </div>
+            <div class="col-sm-9"> <h2> {{ qname }} </h2> </div>
         </div>
         <br/>
         <br/>
-        <div id="surveyContainer">
-            <div id="editorElement"></div>
-        </div>
-
-        <script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+        <div id="surveyElement"></div>
+        <div id="surveyResult"></div>
+        <input id="mainJSON" name="mainJSON" type="hidden" value="{{ mainJSON }}" />
+        <input id="test_result" name="test_result" type="hidden" value="{{ test_result }}" />
         <script type="text/javascript" src="{% static 'kosme/quiz_show.js' %}"></script>
-
     </body>
 {% endblock %}

@@ -89,9 +89,9 @@ STATIC_URL = '/static/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kosme_01_nastya',
+        'NAME': 'kosme_01_',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': '1997',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }

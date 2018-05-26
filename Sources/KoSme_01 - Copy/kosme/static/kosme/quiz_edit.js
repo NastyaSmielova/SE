@@ -20,9 +20,14 @@ Survey
         default: 0
     });
 
-var editorOptions = {showEmbededSurveyTab: false,showPagesToolbox: false, questionTypes : ["text", "checkbox", "dropdown","radiogroup"]};
+var editorOptions = {showEmbededSurveyTab: false, questionTypes : ["text", "checkbox", "dropdown","radiogroup"], showPagesToolbox: false };
 var editor = new SurveyEditor.SurveyEditor("editorElement", editorOptions);
-myWhiteList = ["correctAnswer"];
+
+function loadSurvey() {
+    var json = document.getElementById('surveyJSON');
+    editor.text = document.getElementById('mainJSON').value;
+    json.value = editor.text;
+}
 
 editor.onCanShowProperty.add(function (sender, options) {
     options.canShow = myWhiteList.indexOf(options.property.name) > -1;
@@ -40,7 +45,6 @@ function checkAnswers(json) {
               }
         return true;
 }
-
 
 editor.saveSurveyFunc = function () {
     var quizName = document.getElementById('quiz_name').value;
@@ -63,5 +67,9 @@ editor.saveSurveyFunc = function () {
     else
         alert("Complete answers");
 };
+
+loadSurvey();
+
+
 
 
