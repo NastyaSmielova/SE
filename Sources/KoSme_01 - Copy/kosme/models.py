@@ -40,7 +40,6 @@ class Course(models.Model):
        def __str__(self):
            return self.name
 
-
 class Quiz(models.Model):
     name = models.CharField(max_length=30)
     data = models.TextField(max_length=4000)

@@ -3,15 +3,14 @@
 
 {% block content %}
 
-    <form id="form" method="post" onSubmit="return saveDocumentByName(this.sub)" class="form-group">
-           <textarea id="editor1" name="editor1">Вводьте лекцію тут)</textarea>
+    <form  method="post">
+           <textarea id="editor1" name="editor1">Enter lecture here</textarea>
 
              {% csrf_token %}
-              <label for="fileName">Назва лекції:</label>
-              <input  class="form-control" name="fileName" id="fileName">
-              <input  id="HTMLtoPDF" name="HTMLtoPDF" hidden="hidden">
+            <input  class="form-control" name="fileName">
+             <input  id="HTMLtoPDF" name="HTMLtoPDF" hidden="hidden" />
              <br>
-            <button name="sub" type="submit"  class="btn btn-primary"> Зберігти </button>
+            <button  type="submit"  class="btn btn-primary"> Save document</button>
             </form>
         </form>
 
@@ -21,8 +20,12 @@
         timer = setInterval(updateDiv,100);
         function updateDiv(){
             var editorText = CKEDITOR.instances.editor1.getData();
-               var fileDisplayArea = document.getElementById('HTMLtoPDF');
-            fileDisplayArea.value = editorText;
+            var newstr = editorText.replace(/</g, '__4__');
+            var newstr = newstr.replace(/>/g, '___6___');
+
+            console.log(newstr);
+                var fileDisplayArea = document.getElementById('HTMLtoPDF');
+            fileDisplayArea.value = newstr;
         }
     </script>
 

@@ -5,9 +5,9 @@
 
    {% for quiz in all_quizes %}
        <li>
-           <a  href = "#"> {{ quiz.name }}</a>
-           <a  href = "{% url 'kosme:showQuiz'  quiz.id  %}"> EDIT</a>
-
+           <a  href ="{% url 'kosme:showQuiz'  quiz.id  %}"> {{ quiz.name }}</a>
+           <a  href =  "{% url 'kosme:editQuiz'  quiz.id  %}"> EDIT</a>
+           <a  href =  "{% url 'kosme:deleteQuiz'  quiz.id  %}"> DELETE</a>
        </li>
     {% endfor %}
 
