@@ -16,9 +16,7 @@ urlpatterns = [
     url(r'^course/(?P<pk_course>\d+)/lecture/create$', views.lectureCreate, name='lectureCreate'),
     url(r'^lecture/(?P<pk_course>\d+)/(?P<pk_lect>\d+)/delete', views.lectureIDDelete, name='lectureIDDelete'),
     url(r'^lecture/(?P<pk_course>\d+)/(?P<pk_lect>\d+)/edit$', views.lectureIDEdit, name='lectureIDEdit'),
-  #  url(r'^lecture/$', views.lecture, name='lecture'),
- #   url(r'^showLecture/$', views.showlecture, name='showLecture'),
-
+    url(r'^results/(?P<pk_qiuz>\d+)$', views.results, name='results'),
 
     url(r'^quiz/$', views.quiz, name='quiz'),
     url(r'^logout/$', views.log_out, name='logout'),

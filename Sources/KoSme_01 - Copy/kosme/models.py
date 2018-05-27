@@ -46,23 +46,24 @@ class Student(models.Model):
     User._meta.get_field('email')._unique = True
     schoolClass = models.ForeignKey(SchoolClass, null=True)
     def __str__(self):
-        return "%s %s %s " % (self.user, self.user.first_name, self.user.last_name)
+        return "%s %s " % (self.user.first_name, self.user.last_name)
 
-
-
-class Result(models.Model):
-    student = models.ForeignKey(Student)
-    points = models.IntegerField(default=0)
 
 class Quiz(models.Model):
     name = models.CharField(max_length=30)
     data = models.TextField(max_length=4000)
-    results = models.ForeignKey(Result, null=True)
     course = models.ForeignKey(Course, null=True)
     class Meta:
         verbose_name_plural = "Quizes"
     def __str__(self):
         return "%s " % (self.name)
+
+class Result(models.Model):
+    student = models.ForeignKey(Student)
+    points = models.IntegerField(default=0)
+    quiz = models.ForeignKey(Quiz)
+
+
 
 class Lecture(models.Model):
        name = models.CharField(max_length=100)

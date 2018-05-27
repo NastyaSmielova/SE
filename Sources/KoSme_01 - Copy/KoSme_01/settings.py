@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'kosme.apps.KosmeConfig',
 
-
     'corsheaders',
 ]
 
@@ -57,6 +56,13 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 
 ]
+#TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Tell nose to measure coverage on the 'foo' and 'bar' apps
+# NOSE_ARGS = [
+#     '--with-coverage',
+#     '--cover-package=foo,bar',
+# ]
 
 ROOT_URLCONF = 'KoSme_01.urls'
 

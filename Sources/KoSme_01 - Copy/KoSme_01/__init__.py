@@ -1,0 +1,1 @@
+from kosme.tests import *

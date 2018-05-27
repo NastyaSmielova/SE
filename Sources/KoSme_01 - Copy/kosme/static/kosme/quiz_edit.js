@@ -20,14 +20,9 @@ Survey
         default: 0
     });
 
-var editorOptions = {showEmbededSurveyTab: false, questionTypes : ["text", "checkbox", "dropdown","radiogroup"], showPagesToolbox: false };
+var editorOptions = {showEmbededSurveyTab: false,showPagesToolbox: false, questionTypes : ["text", "checkbox", "dropdown","radiogroup"]};
 var editor = new SurveyEditor.SurveyEditor("editorElement", editorOptions);
-
-function loadSurvey() {
-    var json = document.getElementById('surveyJSON');
-    editor.text = document.getElementById('mainJSON').value;
-    json.value = editor.text;
-}
+myWhiteList = ["correctAnswer"];
 
 editor.onCanShowProperty.add(function (sender, options) {
     options.canShow = myWhiteList.indexOf(options.property.name) > -1;
@@ -35,9 +30,6 @@ editor.onCanShowProperty.add(function (sender, options) {
 
 function checkAnswers(json) {
      parsedJson = JSON.parse(json);
-     // for (j in parsedJson.pages[0]) {
-           //     alert(j);
-        //}
         // change
         for (x=0; x < parsedJson.pages[0].elements.length; x++) {
               if(parsedJson.pages[0].elements[x].correctAnswer === undefined)
@@ -45,6 +37,7 @@ function checkAnswers(json) {
               }
         return true;
 }
+
 
 editor.saveSurveyFunc = function () {
     var quizName = document.getElementById('quiz_name').value;
@@ -59,7 +52,7 @@ editor.saveSurveyFunc = function () {
             type: "POST",
             data: {Json: editor.text, quiz_name: quizName},
             success: function (data) {
-                top.location.href = "/kosme/user";
+                top.location.href = "/kosme/courses";
             }
         });
         alert("Quiz saved");
@@ -68,8 +61,13 @@ editor.saveSurveyFunc = function () {
         alert("Complete answers");
 };
 
-loadSurvey();
+function loadSurvey() {
+    var json = document.getElementById('surveyJSON');
+   json.value = editor.text
+}
 
+editor.text = document.getElementById('mainJSON').value;
+loadSurvey();
 
 
 

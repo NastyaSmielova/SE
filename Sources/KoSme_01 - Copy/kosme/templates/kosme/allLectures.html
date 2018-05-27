@@ -22,6 +22,8 @@
            {% if user.profile.is_teacher %}
                <a class="btn btn-info" role="button" href =  "{% url 'kosme:editQuiz'  quiz.id  %}"> РЕДАГУВАТИ</a>
                <a class="btn btn-warning" role="button"  href =  "{% url 'kosme:deleteQuiz'  quiz.id %}"> ВИДАЛИТИ</a>
+               <a class="btn btn-info" role="button"  href =  "{% url 'kosme:results'  quiz.id %}"> Статистика</a>
+
             {% else %}
                <a class="btn btn-warning" role="button"  href ="{% url 'kosme:showQuiz'  quiz.id  %}"> {{ quiz.name }}</a>
             {% endif %}

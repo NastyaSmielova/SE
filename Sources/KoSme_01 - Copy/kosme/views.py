@@ -9,6 +9,8 @@ import requests
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
+from collections import defaultdict
+
 
 def getTeacher(request):
     return Teacher.objects.filter(user_id=request.user.profile.user_id)[0]
@@ -125,7 +127,7 @@ def courses(request):
         return redirect("kosme:mainPage")
     else:
         if request.user.profile.is_teacher:
-            teacher = Teacher.objects.filter(user_id = request.user.profile.user_id)[0]
+            teacher = Teacher.objects.get(user_id = request.user.profile.user_id)
             all_courses = Course.objects.filter(author_id= teacher.id)
             return render_to_response('kosme/allCourses.html', {'all_courses': all_courses, 'user':request.user})
         else:
@@ -137,6 +139,19 @@ def courses(request):
                 if schoolClass in course.classes.all():
                     courses.append(course)
             return render_to_response('kosme/allCourses.html', {'all_courses': courses, 'user': request.user})
+
+@login_required(login_url='kosme:mainPage')
+def results(request,pk_qiuz):
+    if request.user.profile.is_blocked:
+        return redirect("kosme:mainPage")
+    else:
+        if request.user.profile.is_teacher:
+            results = Result.objects.filter(quiz_id=pk_qiuz)
+            return render_to_response('kosme/results.html', {'all_results': results})
+        else:
+
+            return render_to_response('kosme/404Page.html', {'error_message': "Ви не викладач"})
+
 
 
 #___________________________________________________________________
@@ -226,16 +241,16 @@ def quiz(request, pk_course):
         return redirect('kosme:mainPage')
     else:
         if request.method == 'POST':
-            mdata = request.POST["Json"]
-            name = request.POST["quiz_name"]
-            jdata =  ''.join(mdata.split())
+            mdata = request.POST["Json"].encode('utf-8')
+            name = request.POST["quiz_name"].encode('utf-8')
+           # jdata =  ''.join(mdata.split())
             quiz_elem = Quiz(name=name,data="", course=Course.objects.get(id=pk_course))
             quiz_elem.save()
 
             link = createLink('quiz',id = quiz_elem.id)
             quiz_elem.data = link
             quiz_elem.save()
-            saveToServer('quiz',quiz_elem.id,jdata)
+            saveToServer('quiz',quiz_elem.id,mdata)
             messages.success(request,'Quiz saved')
     return render(request, 'kosme/quizCreate.html')
 
@@ -251,25 +266,44 @@ def show_quiz(request, pk_quiz):
         print(result)
         nstudent = Student.objects.get(user=request.user)
         result = Result(student = nstudent, points=result)
+        result.quiz_id = pk_quiz
         result.save()
-        quiz = Quiz.objects.get(id=pk_quiz)
-        quiz.results = result
-        quiz.save()
-    quiz = Quiz.objects.get(id=pk_quiz)
-    mainJSON = getData(quiz.data)
-    qname = quiz.name
-    return render(request, 'kosme/quizShow.html', {'mainJSON': mainJSON, 'qname': qname})
+       # quiz = Quiz.objects.get(id=pk_quiz)
+       #  quiz.results = result
+       #  quiz.save()
+        return redirect('kosme:mainPage')
+    else:
+        if request.user.profile.is_teacher:
+            quiz = Quiz.objects.get(id=pk_quiz)
+            mainJSON = getData(quiz.data)
+            qname = quiz.name
+            return render(request, 'kosme/quizShow.html', {'mainJSON': mainJSON, 'qname': qname})
+        else:
+            nstudent = Student.objects.get(user=request.user)
+            results = Result.objects.filter(student_id=nstudent.id)
+            pks=[]
+            pks.append(pk_quiz)
+            for result in results:
+                pks.append(result.quiz_id)
+                if str(result.quiz_id) == pk_quiz:
+                    return render_to_response('kosme/404Page.html',{'error_message':"Ви вже проходили цей тест"})
+            quiz = Quiz.objects.get(id=pk_quiz)
+            mainJSON = getData(quiz.data)
+            qname = quiz.name
+            return render(request, 'kosme/quizShow.html', {'mainJSON': mainJSON, 'qname': qname})
+
+
+
 
 def edit_quiz(request, pk_quiz):
     if not request.user.profile.is_teacher:
         return redirect('kosme:mainPage')
     else:
         if request.method == 'POST':
-            mdata = request.POST["Json"]
+            mdata = request.POST["Json"].encode('utf-8')
             quiz_elem = Quiz.objects.get(id=pk_quiz)
-            quiz_elem.name = request.POST["quiz_name"]
-          #  quiz_elem.data = ''.join(mdata.split())
-            saveToServer('quiz',quiz_elem.id,''.join(mdata.split()))
+            quiz_elem.name = request.POST["quiz_name"].encode('utf-8')
+            saveToServer('quiz',quiz_elem.id,mdata)
             quiz_elem.save()
             messages.success(request,'Quiz saved')
     quiz = Quiz.objects.get(id=pk_quiz)
