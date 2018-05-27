@@ -6,7 +6,6 @@ Survey
 
 json = document.getElementById('mainJSON').value;
 result = {completedHtml: "<h3>You have answered correctly <b>{correctedAnswers}</b> questions from <b>{questionCount}</b>.</h3>"};
-alert(json);
 var newJson = $.extend({}, JSON.parse(json) , result);
 
 window.survey = new Survey.Model(newJson);
@@ -17,7 +16,6 @@ function surveyValidateQuestion(survey, options) {
                 type: "POST",
                 data: { result : result}
             });
-        alert("data sended");
         options.complete();
 }
 

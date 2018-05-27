@@ -13,6 +13,7 @@ class StudentAdmin(admin.ModelAdmin):
     def email(self, obj):
         return obj.user.email
 
+
 class StudentAdminInline(admin.TabularInline):
     model = Student
 

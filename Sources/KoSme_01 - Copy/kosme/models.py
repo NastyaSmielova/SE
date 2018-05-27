@@ -57,7 +57,8 @@ class Result(models.Model):
 class Quiz(models.Model):
     name = models.CharField(max_length=30)
     data = models.TextField(max_length=4000)
-    results = models.ForeignKey(Result,null=True)
+    results = models.ForeignKey(Result, null=True)
+    course = models.ForeignKey(Course, null=True)
     class Meta:
         verbose_name_plural = "Quizes"
     def __str__(self):

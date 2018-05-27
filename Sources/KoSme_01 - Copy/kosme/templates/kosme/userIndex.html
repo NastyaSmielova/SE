@@ -21,8 +21,6 @@
                 <a href="{% url 'kosme:courses' %}" class="list-group-item text-center"> Show courses </a>
                  {% if not user.profile.is_teacher %}
                     <a href="{% url 'kosme:userClass' %}" class="list-group-item text-center"> Show class</a>
-                 {% else  %}
-                     <a href="{% url 'kosme:allQuizes' %}" class="list-group-item text-center"> Show quizes</a>
                  {% endif %}
                 <a href="#" class="list-group-item text-center"> Show statistics</a>
             </div>

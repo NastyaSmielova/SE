@@ -16,6 +16,18 @@ def getTeacher(request):
 def isAuthor(teacher,course):
     return course.author_id == teacher.id
 
+SERVERHOST = "http://127.0.0.1:8800"
+
+def saveToServer(type,id,dataToSave):
+    link = createLink(type=type,id=id)
+    r = requests.put(url=link, data=dataToSave)
+
+
+def createLink(type,id):
+    return SERVERHOST +'/'+ type + str(id)
+
+def getData(link):
+    return requests.get(url=link).text
 
 @login_required(login_url='kosme:mainPage')
 @csrf_exempt
@@ -65,11 +77,9 @@ def lectureCreate(request,pk_course):
             lecture.name = fileName
             lecture.course_id = pk_course
             lecture.save()
-            lecture.link =('http://127.0.0.1:8800/lecture'+str(lecture.id))
+            lecture.link = createLink('lecture',lecture.id)
             lecture.save()
-
-            URL = lecture.link
-            r = requests.put(url=URL, data=dataToSave)
+            saveToServer('lecture',lecture.id,dataToSave)
             return redirect('kosme:mainPage')
     else:  return redirect('kosme:mainPage')
 
@@ -102,9 +112,11 @@ def courseID(request,pk_course):
         if not course.author_id == teacher.id:
             return render_to_response('kosme/404Page.html', {'error_message': "Це не ваш предмет"})
         all_lectures = Lecture.objects.filter(course_id = pk_course)
+        all_quizes = Quiz.objects.filter(course_id=pk_course)
     else:
         all_lectures = Lecture.objects.filter(course_id=pk_course)
-    return render_to_response('kosme/allLectures.html', {'all_lectures': all_lectures,'course_id': pk_course , 'user':request.user})
+        all_quizes = Quiz.objects.filter(course_id=pk_course)
+    return render_to_response('kosme/allLectures.html', {"all_quizes": all_quizes,'all_lectures': all_lectures,'course_id': pk_course , 'user':request.user})
 
 
 @login_required(login_url='kosme:mainPage')
@@ -206,16 +218,10 @@ def mainPage(request):
                 return redirect('kosme:userIndex')
     return render_to_response('kosme/mainPage.html')
 
-
-
-def allQuizes(request):
-    all_quizes = Quiz.objects.all()
-    print(all_quizes)
-    return render(request, 'kosme/allQuizes.html', {'all_quizes': all_quizes})
-
+#______________________________________________________#
 
 @login_required(login_url='kosme:mainPage')
-def quiz(request):
+def quiz(request, pk_course):
     if not request.user.profile.is_teacher:
         return redirect('kosme:mainPage')
     else:
@@ -223,14 +229,21 @@ def quiz(request):
             mdata = request.POST["Json"]
             name = request.POST["quiz_name"]
             jdata =  ''.join(mdata.split())
-            quiz_elem = Quiz(name=name, data= jdata)
+            quiz_elem = Quiz(name=name,data="", course=Course.objects.get(id=pk_course))
             quiz_elem.save()
+
+            link = createLink('quiz',id = quiz_elem.id)
+            quiz_elem.data = link
+            quiz_elem.save()
+            saveToServer('quiz',quiz_elem.id,jdata)
             messages.success(request,'Quiz saved')
     return render(request, 'kosme/quizCreate.html')
 
 def delete_quiz(request, pk_quiz):
-    Quiz.objects.get(id = pk_quiz).delete()
-    return redirect('kosme:allQuizes')
+    quiz = Quiz.objects.get(id = pk_quiz)
+    pk_course = quiz.course_id
+    quiz.delete()
+    return redirect('kosme:courseID', pk_course)
 
 def show_quiz(request, pk_quiz):
     if request.method == 'POST':
@@ -243,7 +256,7 @@ def show_quiz(request, pk_quiz):
         quiz.results = result
         quiz.save()
     quiz = Quiz.objects.get(id=pk_quiz)
-    mainJSON = quiz.data
+    mainJSON = getData(quiz.data)
     qname = quiz.name
     return render(request, 'kosme/quizShow.html', {'mainJSON': mainJSON, 'qname': qname})
 
@@ -255,10 +268,15 @@ def edit_quiz(request, pk_quiz):
             mdata = request.POST["Json"]
             quiz_elem = Quiz.objects.get(id=pk_quiz)
             quiz_elem.name = request.POST["quiz_name"]
-            quiz_elem.data = ''.join(mdata.split())
+          #  quiz_elem.data = ''.join(mdata.split())
+            saveToServer('quiz',quiz_elem.id,''.join(mdata.split()))
             quiz_elem.save()
             messages.success(request,'Quiz saved')
     quiz = Quiz.objects.get(id=pk_quiz)
-    mainJSON = quiz.data
+    mainJSON = getData(quiz.data)
     qname = quiz.name
     return render(request, 'kosme/quizEdit.html', {'mainJSON': mainJSON, 'qname': qname})
+
+def allQuizes(request):
+    all_quizes = Quiz.objects.all()
+    return render(request, 'kosme/allQuizes.html', {'all_quizes': all_quizes})

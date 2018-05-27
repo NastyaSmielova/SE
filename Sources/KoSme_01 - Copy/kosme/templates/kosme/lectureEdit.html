@@ -23,20 +23,9 @@
         CKEDITOR.replace( 'editor1' );
         timer = setInterval(updateDiv,100);
         function updateDiv(){
-            var editorText = CKEDITOR.instances.editor1.getData();
-            var newstr = editorText;
-
-            console.log(newstr);
-
-            var request = new XMLHttpRequest();
-            var link =  document.getElementById("link").innerHTML;
-            request.open("PUT", link,false);
-                var fileDisplayArea = document.getElementById('editor1').innerHTML;
-
-            request.send(editorText);
-
+            updateText()
             var fileDisplayArea = document.getElementById('HTMLtoPDF');
-            fileDisplayArea.value = newstr;
+            fileDisplayArea.value = CKEDITOR.instances.editor1.getData();
         }
     </script>
 

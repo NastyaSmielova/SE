@@ -1,8 +1,10 @@
 from django.test import TestCase
 import datetime
 import django.utils.timezone as timezone
+
+
+
 from  kosme.models import *
-# Create your tests here.
 class TestLecture(TestCase):
 
     def createLecture(self, name = "firstone",link="127.0.0.1:8800/firstOne" ):
