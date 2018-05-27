@@ -1,0 +1,30 @@
+{% extends 'kosme/base.html' %}
+{% load i18n %}
+
+{% block content %}
+{#onSubmit="return saveDocumentByName(this.sub)"#}
+    <form id="form" method="post"  class="form-group">
+           <textarea id="editor1" name="editor1" style="height: 70em">Вводьте лекцію тут)</textarea>
+
+             {% csrf_token %}
+              <label for="fileName">Назва лекції:</label>
+              <input class="form-control" name="fileName" id="fileName" required>
+              <input  id="HTMLtoPDF" name="HTMLtoPDF" hidden="hidden">
+             <br>
+            <button name="sub" type="submit"  class="btn btn-primary"> Зберігти </button>
+            </form>
+        </form>
+
+
+       <script type="text/javascript">
+        CKEDITOR.replace( 'editor1' );
+        timer = setInterval(updateDiv,100);
+        function updateDiv(){
+            var editorText = CKEDITOR.instances.editor1.getData();
+               var fileDisplayArea = document.getElementById('HTMLtoPDF');
+            fileDisplayArea.value = editorText;
+        }
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+
+{% extends 'kosme/base.html' %}
+{% load i18n %}
+{% block content %}
+    <h1>Лекції</h1>
+<ul class="list-group">
+   {% for lecture in all_lectures %}
+       <li  class="list-group-item">
+           <h4> {{ lecture.name }}
+           <a class="btn btn-info" role="button" href = "{% url 'kosme:lectureID'  course_id  lecture.id  %}"> {{ lecture.name }}</a>
+         {% if user.profile.is_teacher %}  <a class="btn btn-warning" role="button" href = "{% url 'kosme:lectureIDEdit' course_id lecture.id  %}"> РЕДАГУВАТИ</a>
+           <a class="btn btn-danger" role="button" href = "{% url 'kosme:lectureIDDelete' course_id lecture.id  %}"> ВИДАЛИТИ </a>
+       {% endif %}
+        </h4>
+       </li>
+    {% endfor %}
+</ul>
+    <h1>Тести</h1>
+    <ul>   {% for quiz in all_quizes %}
+       <li>
+           <h4> {{ quiz.name }}
+           {% if user.profile.is_teacher %}
+               <a class="btn btn-info" role="button" href =  "{% url 'kosme:editQuiz'  quiz.id  %}"> РЕДАГУВАТИ</a>
+               <a class="btn btn-warning" role="button"  href =  "{% url 'kosme:deleteQuiz'  quiz.id %}"> ВИДАЛИТИ</a>
+               <a class="btn btn-info" role="button"  href =  "{% url 'kosme:results'  quiz.id %}"> Статистика</a>
+
+            {% else %}
+               <a class="btn btn-warning" role="button"  href ="{% url 'kosme:showQuiz'  quiz.id  %}"> {{ quiz.name }}</a>
+            {% endif %}
+           </h4>
+       </li>
+    </ul>
+    {% endfor %}
+    <br><br>
+    <br><br>
+    {% if user.profile.is_teacher %}
+                <a class="btn btn-danger" role="button" href="{% url 'kosme:lectureCreate' course_id %}">Створити нову лекцію</a>
+                <a class="btn btn-danger" role="button" href="{% url 'kosme:quiz' course_id %}">Створити новий тест </a>
+
+    {% endif %}
+
+{% endblock %}
