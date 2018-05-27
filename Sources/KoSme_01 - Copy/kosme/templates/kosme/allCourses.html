@@ -1,0 +1,13 @@
+
+{% extends 'kosme/base.html' %}
+{% load i18n %}
+{% block content %}
+<ul class="list-group">
+   {% for course in all_courses %}
+       <li  class="list-group-item">
+           <a class="btn btn-info" role="button" href = "{% url 'kosme:courseID' course.id %}"> {{ course.name }}</a>
+
+       </li>
+    {% endfor %}
+</ul>
+{% endblock %}

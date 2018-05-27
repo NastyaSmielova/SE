@@ -1,0 +1,33 @@
+{% extends 'kosme/base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+    <form  method="post" class="form-group"  >
+
+           <textarea id="editor1" name="editor1">Вводьте лекцію тут)</textarea>
+
+             {% csrf_token %}
+             <input id="HTMLtoPDF" name="HTMLtoPDF" hidden="hidden">
+             <br>
+            <button name = "sub" class="btn btn-primary" onclick="saveDocument({{ lecture.link }})" type="submit"> Закрити редагування </button>
+            </form>
+    </form>
+         <p id="link" hidden="hidden"  > {{ lecture.link}}</p>
+         <button  id="myCheck" hidden="hidden"   onclick="setLectureText('{{ lecture.link }}')" > Show example </button>
+            <script>window.onload =  document.getElementById("myCheck").click();</script>
+
+
+
+       <script type="text/javascript">
+        CKEDITOR.replace( 'editor1' );
+        timer = setInterval(updateDiv,100);
+        function updateDiv(){
+            updateText()
+            var fileDisplayArea = document.getElementById('HTMLtoPDF');
+            fileDisplayArea.value = CKEDITOR.instances.editor1.getData();
+        }
+    </script>
+
+
+{% endblock %}

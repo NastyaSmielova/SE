@@ -1,0 +1,22 @@
+
+{% extends 'kosme/base.html' %}
+{% load i18n %}
+{% block content %}
+
+   <h1 class="text-center">KoSme school main page</h1>
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+        </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="text-center btn-group btn-group-justified">
+    <a href="{% url 'kosme:signin' %}" class="btn btn-primary">Увійти</a>
+    <a href="{% url 'kosme:signup' %}" class="btn btn-primary">Зареєструватись</a>
+
+    </div>
+
+{% endblock %}

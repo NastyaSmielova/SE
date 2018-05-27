@@ -1,0 +1,22 @@
+
+{% extends 'kosme/quiz_base.html' %}
+{% load i18n %}
+{% block content %}
+
+   {% for quiz in all_quizes %}
+       <li>
+           <h3> {{ quiz.name }}</h3>
+           {% if request.user.profile.is_teacher %}
+               <a  href =  "{% url 'kosme:editQuiz'  quiz.id  %}"> РЕДАГУВАТИ</a>
+               <a  href =  "{% url 'kosme:deleteQuiz'  quiz.id  %}"> ВИДАЛИТИ</a>
+            {% else %}
+               <a  href ="{% url 'kosme:showQuiz'  quiz.id  %}"> {{ quiz.name }}</a>
+            {% endif %}
+       </li>
+            <a href="{% url 'kosme:quiz' %}">Create new </a>
+    {% endfor %}
+
+
+
+
+{% endblock %}
