@@ -27,7 +27,9 @@ urlpatterns = [
     url(r'^user/class$', views.user_class, name="userClass"),
     url(r'^user/quiz_all/$', views.allQuizes, name="allQuizes"),
     url(r'^user/(?P<pk_course>\d+)/quiz/create$', views.quiz, name='quiz'),
+    url(r'^user/statistics$', views.user_statistics, name='userStatistics'),
     url(r'^user/(?P<pk_quiz>\d+)/delete', views.delete_quiz, name="deleteQuiz"),
     url(r'^user/(?P<pk_quiz>\d+)/show$', views.show_quiz, name="showQuiz"),
     url(r'^user/(?P<pk_quiz>\d+)/edit$', views.edit_quiz, name="editQuiz")
+
 ]

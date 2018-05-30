@@ -3,10 +3,23 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
+    <div class="container">
   <h2>Увійти</h2>
+    <ul class="messages">
+        {% for message in messages %}
+            {% if message.tags  == 'error'%}
+                <li class="list-group-item list-group-item-danger"> {{ message }}</li>
+            {% else %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {{ message }}
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
   <form method="post" class="form-group">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Увійти</button>
   </form>
+    </div>
 {% endblock %}

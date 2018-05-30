@@ -4,8 +4,8 @@
     {% block title %}Class{% endblock %}
 
     {% block content %}
-            <h2 class="text-center"> Your class: </h2>
-            <h3 class="text-center"> Class {{ cname }} </h3>
+        {% if cname %}
+                  <h2 class="text-center"> Список класу {{ cname }} </h2>
             {% if students %}
                 <ul class="list-group">
                 {% for student in students %}
@@ -14,7 +14,12 @@
                  </ul>
             {% else %}
                  <ul class="list-group">
-                    <li class="list-group-item "> No class </li>
+                    <li class="list-group-item "> Немає учнів класу </li>
                 </ul>
             {% endif %}
+        {% else %}
+             <ul class="list-group">
+                    <li class="list-group-item "> Немає класу </li>
+                </ul>
+        {% endif %}
     {% endblock %}

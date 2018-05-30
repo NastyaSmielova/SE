@@ -13,7 +13,7 @@ from collections import defaultdict
 
 
 def getTeacher(request):
-    return Teacher.objects.filter(user_id=request.user.profile.user_id)[0]
+    return Teacher.objects.get(user_id=request.user.profile.user_id)
 
 def isAuthor(teacher,course):
     return course.author_id == teacher.id
@@ -36,19 +36,19 @@ def getData(link):
 def lectureIDEdit(request,pk_course,pk_lect):
     course = Course.objects.filter(id=pk_course)
     if not course:
-        return render_to_response('kosme/404Page.html', {'error_message': "Такого предмету не існує"})
+        return render(request,'kosme/404Page.html', {'error_message': "Такого предмету не існує"})
     course = course[0]
     teacher = getTeacher(request)
     if not isAuthor(teacher,course):
-        return render_to_response('kosme/404Page.html', {'error_message': "Це не ваш предмет"})
+        return render(request,'kosme/404Page.html', {'error_message': "Це не ваш предмет"})
     if request.user.profile.is_teacher:
         if request.method == "GET":
 
                 lectures = Lecture.objects.filter(id=pk_lect)
                 if not lectures:
-                    return render_to_response('kosme/404Page.html', {'error_message': "Такої лекції не існує."})
+                    return render(request,'kosme/404Page.html', {'error_message': "Такої лекції не існує."})
                 lecture = lectures[0]
-                return render_to_response('kosme/lectureEdit.html', {'lecture': lecture})
+                return render(request,'kosme/lectureEdit.html', {'lecture': lecture})
 
         if request.method == 'POST':
             return redirect('kosme:courses')
@@ -63,14 +63,14 @@ def lectureIDEdit(request,pk_course,pk_lect):
 def lectureCreate(request,pk_course):
     course = Course.objects.filter(id=pk_course)
     if not course:
-        return render_to_response('kosme/404Page.html', {'error_message': "Такого предмету не існує"})
+        return render(request,'kosme/404Page.html', {'error_message': "Такого предмету не існує"})
     course = course[0]
     teacher = getTeacher(request)
     if not isAuthor(teacher,course):
-        return render_to_response('kosme/404Page.html', {'error_message': "Це не ваш предмет"})
+        return render(request,'kosme/404Page.html', {'error_message': "Це не ваш предмет"})
     if request.user.profile.is_teacher:
         if request.method == "GET":
-            return render_to_response('kosme/lectureCreate.html')
+            return render(request,'kosme/lectureCreate.html')
 
         if request.method == 'POST':
             dataToSave = request.POST.get("HTMLtoPDF", "").encode("utf-8")
@@ -89,15 +89,15 @@ def lectureCreate(request,pk_course):
 def lectureID(request,pk_course,pk_lect):
     lecture = Lecture.objects.filter(id=pk_lect)
     if not lecture:
-        return render_to_response('kosme/404Page.html', {'error_message': "Такої лекції не існує"})
+        return render(request,'kosme/404Page.html', {'error_message': "Такої лекції не існує"})
     lecture = lecture[0]
-    return render_to_response('kosme/lectureShow.html', {'lecture': lecture})
+    return render(request,'kosme/lectureShow.html', {'lecture': lecture})
 
 @login_required(login_url='kosme:mainPage')
 def lectureIDDelete(request,pk_course, pk_lect):
     course = Course.objects.filter(id=pk_course)
     if not course:
-        return render_to_response('kosme/404Page.html', {'error_message': "Такого предмету не існує"})
+        return render(request,'kosme/404Page.html', {'error_message': "Такого предмету не існує"})
     Lecture.objects.filter(id=pk_lect)[0].delete()
     return redirect("kosme:courseID",pk_course)
 
@@ -107,18 +107,18 @@ def lectureIDDelete(request,pk_course, pk_lect):
 def courseID(request,pk_course):
     course = Course.objects.filter(id=pk_course)
     if not course:
-        return render_to_response('kosme/404Page.html', {'error_message': "Такого предмету не існує"})
+        return render(request,'kosme/404Page.html', {'error_message': "Такого предмету не існує"})
     course = course[0]
     if request.user.profile.is_teacher:
         teacher = getTeacher(request)
         if not course.author_id == teacher.id:
-            return render_to_response('kosme/404Page.html', {'error_message': "Це не ваш предмет"})
+            return render(request,'kosme/404Page.html', {'error_message': "Це не ваш предмет"})
         all_lectures = Lecture.objects.filter(course_id = pk_course)
         all_quizes = Quiz.objects.filter(course_id=pk_course)
     else:
         all_lectures = Lecture.objects.filter(course_id=pk_course)
         all_quizes = Quiz.objects.filter(course_id=pk_course)
-    return render_to_response('kosme/allLectures.html', {"all_quizes": all_quizes,'all_lectures': all_lectures,'course_id': pk_course , 'user':request.user})
+    return render(request,'kosme/allLectures.html', {"all_quizes": all_quizes,'all_lectures': all_lectures,'course_id': pk_course , 'user':request.user})
 
 
 @login_required(login_url='kosme:mainPage')
@@ -129,7 +129,7 @@ def courses(request):
         if request.user.profile.is_teacher:
             teacher = Teacher.objects.get(user_id = request.user.profile.user_id)
             all_courses = Course.objects.filter(author_id= teacher.id)
-            return render_to_response('kosme/allCourses.html', {'all_courses': all_courses, 'user':request.user})
+            return render(request,'kosme/allCourses.html', {'all_courses': all_courses, 'user':request.user})
         else:
             student = Student.objects.filter(user_id=request.user.profile.user_id)[0]
             schoolClass = SchoolClass.objects.filter(id=student.schoolClass.id)[0]
@@ -138,7 +138,7 @@ def courses(request):
             for course in all_courses:
                 if schoolClass in course.classes.all():
                     courses.append(course)
-            return render_to_response('kosme/allCourses.html', {'all_courses': courses, 'user': request.user})
+            return render(request,'kosme/allCourses.html', {'all_courses': courses, 'user': request.user})
 
 @login_required(login_url='kosme:mainPage')
 def results(request,pk_qiuz):
@@ -147,15 +147,14 @@ def results(request,pk_qiuz):
     else:
         if request.user.profile.is_teacher:
             results = Result.objects.filter(quiz_id=pk_qiuz)
-            return render_to_response('kosme/results.html', {'all_results': results})
+            return render(request,'kosme/results.html', {'all_results': results})
         else:
 
-            return render_to_response('kosme/404Page.html', {'error_message': "Ви не викладач"})
+            return render(request,'kosme/404Page.html', {'error_message': "Ви не викладач"})
 
 
 
 #___________________________________________________________________
-
 
 def signup(request):
     if request.user.is_authenticated():
@@ -212,14 +211,23 @@ def signin(request):
             raw_password = request.POST['password']
             if User.objects.filter(username=username).exists():
                 user = User.objects.get(username=username)
-                if not user.profile.is_blocked:
-                        user = authenticate(username=username, password=raw_password)
-                        login(request, user)
-                        return redirect('kosme:userIndex')
+                if Profile.objects.filter(user=user).exists():
+                    if not user.profile.is_blocked:
+                            user = authenticate(username=username, password=raw_password)
+                            if user is not None:
+                                login(request, user)
+                                return redirect('kosme:userIndex')
+                            else:
+                                messages.error(request, "Введено неправильний пароль")
+                                return redirect('kosme:signin')
+                    else:
+                        messages.error(request, "Чекайте підтвердження від адміністратора")
+                        return redirect('kosme:signin')
                 else:
-                    messages.warning(request, "Wait for approval")
-                    return redirect('kosme:mainPage')
+                    return render_to_response('kosme/404Page.html',
+                                              {'error_message': "Виникла помилка аккаунта. Зверніться до адміністратора."})
             else:
+                messages.error(request, "Неправильні дані. Користувача з заданим логіном не існує.")
                 return redirect('kosme:signin')
 
         else:
@@ -231,7 +239,7 @@ def mainPage(request):
     if request.user is not None:
         if request.user.is_authenticated():
                 return redirect('kosme:userIndex')
-    return render_to_response('kosme/mainPage.html')
+    return render(request,'kosme/mainPage.html')
 
 #______________________________________________________#
 
@@ -260,6 +268,16 @@ def delete_quiz(request, pk_quiz):
     quiz.delete()
     return redirect('kosme:courseID', pk_course)
 
+def is_completed_quiz(request, quiz):
+    student = Student.objects.get(user_id = request.user)
+    return  student.result_set.filter(quiz = quiz).exists()
+
+def is_wrong_student_quiz(request,quiz):
+    student = Student.objects.get(user_id=request.user)
+    return student.schoolClass.course_set.filter(id=quiz.course_id).exists()
+
+
+@login_required(login_url='kosme:mainPage')
 def show_quiz(request, pk_quiz):
     if request.method == 'POST':
         result = request.POST["result"]
@@ -293,21 +311,42 @@ def show_quiz(request, pk_quiz):
             return render(request, 'kosme/quizShow.html', {'mainJSON': mainJSON, 'qname': qname})
 
 
+def is_wrong_teacher_quiz(request, quiz):
+    teacher = Teacher.objects.get(user_id=request.user.profile.user_id)
+    if quiz.course.author.id == teacher.id:
+        return False
+    else:
+        return True
 
 
+@login_required(login_url='kosme:mainPage')
+def user_statistics(request):
+    if request.user.profile.is_teacher:
+        redirect('kosme:userIndex')
+    else:
+        school_class = SchoolClass.objects.get(student__user = request.user)
+        courses = school_class.course_set.all()
+        return render(request, 'kosme/userStatistics.html', {'courses': courses})
+
+
+@login_required(login_url='kosme:mainPage')
 def edit_quiz(request, pk_quiz):
+    quiz = Quiz.objects.get(id=pk_quiz)
     if not request.user.profile.is_teacher:
         return redirect('kosme:mainPage')
     else:
-        if request.method == 'POST':
+        # по моей логике преподаватель не может проходить тесты
+        if is_wrong_teacher_quiz(request, quiz):
+            return render_to_response('kosme/404Page.html', {'error_message': "Ви не можете редагувати цей тест"})
+        elif request.method == 'POST':
             mdata = request.POST["Json"].encode('utf-8')
-            quiz_elem = Quiz.objects.get(id=pk_quiz)
-            quiz_elem.name = request.POST["quiz_name"].encode('utf-8')
-            saveToServer('quiz',quiz_elem.id,mdata)
-            quiz_elem.save()
-            messages.success(request,'Quiz saved')
-    quiz = Quiz.objects.get(id=pk_quiz)
-    mainJSON = getData(quiz.data)
+            quiz = Quiz.objects.get(id=pk_quiz)
+            quiz.name = request.POST["quiz_name"].encode('utf-8')
+            #??? quiz.data = ''.join(mdata.split())
+            saveToServer('quiz',quiz.id,mdata)
+            quiz.save()
+            messages.success(request,'Тест збережено')
+    mainJSON =  getData(quiz.data)
     qname = quiz.name
     return render(request, 'kosme/quizEdit.html', {'mainJSON': mainJSON, 'qname': qname})
 

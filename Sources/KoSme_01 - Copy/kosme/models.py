@@ -39,8 +39,6 @@ class Course(models.Model):
        def __str__(self):
            return self.name
 
-
-
 class Student(models.Model):
     user = models.OneToOneField('auth.User')
     User._meta.get_field('email')._unique = True

@@ -1,0 +1,33 @@
+{% extends 'kosme/base.html' %}
+{% load i18n %}
+{% load app_filters %}
+
+    {% block title %}Статистика{% endblock %}
+    {% block content %}
+{#        {% if user.profile.is_teacher %}#}
+{#                <a href="{% url 'kosme:profile' %}" class="list-group-item text-center"> Статистика курсів </a>#}
+{#                <a href="{% url 'kosme:courses' %}" class="list-group-item text-center"> Статистика класів </a>#}
+{#        {% else %}#}
+
+            <h2 class="text-center"> Бали з пройдених тестів та курсів </h2>
+            {% if courses %}
+               {% for course in courses %}
+            <li class="list-group-item">
+                <div class="btn btn-info" role="button"> {{ course.name }}</div>
+                {% for quiz in course.quiz_set.all %}
+                          <div class="list-group-item text-center" > {{ quiz.name }}</div>
+                            {% if quiz.results|result_exists:user%}
+                                  <div class="list-group-item text-center" > {{ quiz.results|student_result:user }}</div>
+                            {% else %}
+                                <div class="list-group-item text-center" > Тест не пройдено </div>
+                            {% endif %}
+
+                {% endfor %}
+            </li>
+            {% endfor %}
+            {% else %}
+                 <div class="list-group-item text-center" > Немає курсів та тестів </div>
+            {% endif %}
+{#        {% endif %}#}
+
+    {% endblock %}
